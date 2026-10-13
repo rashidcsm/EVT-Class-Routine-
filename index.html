@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ক্লাস রুটিন ২য় শিফট এনভায়রনমেন্টাল টেকনোলজি</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            font-family: 'Segoe UI', 'Noto Sans Bengali', Tahoma, sans-serif;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 850px;
+            width: 100%;
+            padding: 30px 20px 40px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+        }
+
+        /* লোগো */
+        .logo-wrapper {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #f0f0f0, #c9c9c9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 50px;
+            font-weight: bold;
+            color: #1a3a5c;
+            opacity: 0;
+            transform: scale(0.3) rotate(-180deg);
+            animation: logoAppear 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                       logoPulse 2s ease-in-out 1.5s infinite;
+            border: 4px solid #ffd700;
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            width: 110%;
+            height: 110%;
+            border-radius: 50%;
+            border: 2px dashed #ffd700;
+            animation: spinRing 8s linear infinite;
+        }
+
+        @keyframes logoAppear {
+            0% { opacity: 0; transform: scale(0.3) rotate(-180deg); }
+            60% { opacity: 1; transform: scale(1.1) rotate(10deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.3); }
+        }
+
+        @keyframes spinRing {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* লেখা */
+        .text-line {
+            opacity: 0;
+            transform: translateY(40px) scale(0.9);
+            filter: blur(8px);
+            margin: 10px 0;
+        }
+
+        .text-line.line-1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffd700;
+            text-shadow: 0 2px 15px rgba(255, 215, 0, 0.5);
+            animation: textReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.8s forwards;
+        }
+
+        .text-line.line-2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+            animation: textReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) 2.6s forwards;
+        }
+
+        .text-line.line-3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #00e5ff;
+            text-shadow: 0 2px 20px rgba(0, 229, 255, 0.5);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid rgba(255, 255, 255, 0.15);
+            animation: textReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) 3.4s forwards;
+        }
+
+        @keyframes textReveal {
+            0% { opacity: 0; transform: translateY(40px) scale(0.9); filter: blur(8px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+
+        /* ডিভাইডার */
+        .divider {
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffd700, #00e5ff, #ffd700, transparent);
+            margin: 22px auto;
+            border-radius: 5px;
+            animation: expandLine 1s ease-out 4.2s forwards;
+        }
+
+        @keyframes expandLine {
+            from { width: 0; opacity: 0; }
+            to { width: 80%; opacity: 1; }
+        }
+
+        /* ড্রপডাউন সেকশন */
+        .dropdown-section {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out 4.8s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .dropdown-box {
+            flex: 1 1 250px;
+            text-align: left;
+        }
+
+        .dropdown-box label {
+            display: block;
+            color: #ffd700;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            padding-left: 5px;
+        }
+
+        .dropdown-box select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 1rem;
+            font-family: inherit;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffd700'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+        }
+
+        .dropdown-box select:hover,
+        .dropdown-box select:focus {
+            border-color: #ffd700;
+            background-color: rgba(255, 215, 0, 0.15);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .dropdown-box select option {
+            background: #1a3a5c;
+            color: #ffffff;
+            padding: 10px;
+        }
+
+        /* তথ্য কার্ড */
+        .info-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 10px;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.4s ease;
+        }
+
+        .info-card.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            min-height: 0;
+            padding: 0;
+            margin: 0;
+            border: none;
+            overflow: hidden;
+        }
+
+        .info-card .placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+
+        /* ক্লাস কার্ড ডিজাইন */
+        .class-card {
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.08), rgba(255, 215, 0, 0.05));
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 15px;
+            padding: 18px;
+            margin-bottom: 15px;
+            text-align: left;
+            animation: cardSlideIn 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .class-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #ffd700, #00e5ff);
+        }
+
+        .class-card:last-child {
+            margin-bottom: 0;
+        }
+
+        @keyframes cardSlideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .class-card:nth-child(1) { animation-delay: 0.1s; }
+        .class-card:nth-child(2) { animation-delay: 0.2s; }
+        .class-card:nth-child(3) { animation-delay: 0.3s; }
+        .class-card:nth-child(4) { animation-delay: 0.4s; }
+        .class-card:nth-child(5) { animation-delay: 0.5s; }
+        .class-card:nth-child(6) { animation-delay: 0.6s; }
+        .class-card:nth-child(7) { animation-delay: 0.7s; }
+
+        .class-time {
+            display: inline-block;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            color: #1a3a5c;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .class-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 8px 0;
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .class-detail .icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            width: 24px;
+            text-align: center;
+        }
+
+        .class-detail .label {
+            color: #ffd700;
+            font-weight: 600;
+            margin-right: 5px;
+            flex-shrink: 0;
+        }
+
+        .class-detail .value {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .class-detail .subject-code {
+            color: #00e5ff;
+            font-weight: 700;
+            background: rgba(0, 229, 255, 0.12);
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-right: 6px;
+            display: inline-block;
+        }
+
+        /* ===== কল বাটন (App Inventor-এর জন্য) ===== */
+        .phone-link {
+            color: #00e676;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 20px;
+            background: rgba(0, 230, 118, 0.15);
+            border: 1px solid rgba(0, 230, 118, 0.4);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .phone-link:hover {
+            background: rgba(0, 230, 118, 0.3);
+            box-shadow: 0 0 15px rgba(0, 230, 118, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .phone-link:active {
+            transform: translateY(0);
+            background: rgba(0, 230, 118, 0.4);
+        }
+
+        /* ===== ডেভেলপার ফুটার ===== */
+        .dev-footer {
+            margin-top: 35px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 5.6s forwards;
+        }
+
+        .dev-footer .dev-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffd700;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(255, 215, 0, 0.4);
+        }
+
+        .dev-footer .dev-line {
+            width: 200px;
+            height: 2px;
+            margin: 0 auto 14px;
+            background: linear-gradient(90deg, transparent, #00e5ff, #ffd700, #00e5ff, transparent);
+            border-radius: 2px;
+        }
+
+        .dev-footer .dev-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 6px 0 4px;
+            text-shadow: 0 2px 12px rgba(255, 255, 255, 0.25);
+        }
+
+        .dev-footer .dev-detail {
+            font-size: 0.95rem;
+            color: #b0c4d8;
+            line-height: 1.7;
+            margin: 2px 0;
+        }
+
+        .dev-footer .dev-detail.highlight {
+            color: #00e5ff;
+            font-weight: 600;
+        }
+
+        .dev-footer .dev-badge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #0f2027;
+            background: linear-gradient(90deg, #ffd700, #00e5ff);
+            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        /* রেসপন্সিভ */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 12px 30px;
+            }
+            .logo {
+                width: 90px;
+                height: 90px;
+                font-size: 40px;
+            }
+            .text-line.line-1 { font-size: 1.2rem; }
+            .text-line.line-2 { font-size: 1rem; }
+            .text-line.line-3 { font-size: 1.2rem; }
+            .dropdown-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .dropdown-box {
+                flex: 1 1 100%;
+            }
+            .class-card {
+                padding: 14px;
+            }
+            .class-detail {
+                font-size: 0.88rem;
+            }
+            .class-time {
+                font-size: 0.85rem;
+                padding: 5px 12px;
+            }
+            .dev-footer .dev-name {
+                font-size: 1.1rem;
+            }
+            .dev-footer .dev-detail {
+                font-size: 0.88rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- লোগো -->
+        <div class="logo-wrapper">
+            <div class="logo">CPI</div>
+        </div>
+
+        <!-- লেখা -->
+        <div class="text-line line-1">চট্টগ্রাম গভঃ পলিটেকনিক ইন্সটিটিউট</div>
+        <div class="text-line line-2">এনভায়রনমেন্টাল টেকনোলজি বিভাগ</div>
+        <div class="text-line line-3">২য় শিফট ক্লাস রুটিন</div>
+
+        <!-- ডিভাইডার -->
+        <div class="divider"></div>
+
+        <!-- ড্রপডাউন সেকশন -->
+        <div class="dropdown-section">
+            <div class="dropdown-group">
+                <!-- ১ম ড্রপডাউন: সাপ্তাহিক বার -->
+                <div class="dropdown-box">
+                    <label for="daySelect">📅 সাপ্তাহিক বার</label>
+                    <select id="daySelect">
+                        <option value="">-- দিন নির্বাচন করুন --</option>
+                        <option value="রবিবার">রবিবার</option>
+                        <option value="সোমবার">সোমবার</option>
+                        <option value="মঙ্গলবার">মঙ্গলবার</option>
+                        <option value="বুধবার">বুধবার</option>
+                        <option value="বৃহস্পতিবার">বৃহস্পতিবার</option>
+                    </select>
+                </div>
+
+                <!-- ২য় ড্রপডাউন: সময়সূচী -->
+                <div class="dropdown-box">
+                    <label for="timeSelect">⏰ সময়সূচী</label>
+                    <select id="timeSelect" disabled>
+                        <option value="">-- প্রথমে দিন নির্বাচন করুন --</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- তথ্য কার্ড -->
+            <div class="info-card hidden" id="infoCard">
+                <div class="placeholder" id="placeholderText">
+                    উপরে দিন ও সময় নির্বাচন করুন...
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== ডেভেলপার ফুটার ===== -->
+        <div class="dev-footer">
+            <div class="dev-title">Developed By</div>
+            <div class="dev-line"></div>
+            <div class="dev-name">Md Rashidul Alam</div>
+            <div class="dev-detail">Father of Md Khurshed Alam</div>
+            <div class="dev-detail">Study in Environmental Technology</div>
+            <div class="dev-detail highlight">1st Semester at Ctg Gov Polytechnic Institute</div>
+            <div class="dev-badge">⚡Session 2026-27 CPI ⚡</div>
+        </div>
+    </div>
+
+    <script>
+        // ===== সম্পূর্ণ রুটিন ডেটা (সংশোধিত) =====
+        const routineData = {
+            "রবিবার": {
+                "০১:৩০ - ০৩:৪৫": {
+                    code: "২৯০১১",
+                    subject: "বেসিক এনভায়রনমেন্টাল ইঞ্জিঃ",
+                    room: "ইভিটি ল্যাব",
+                    teacher: "মো: ফয়সাল বারি স্যার",
+                    phone: "01673689385"
+                },
+                "০৩:৪৫ - ০৪:৩০": {
+                    code: "২৫৯১৩",
+                    subject: "কেমিস্ট্রি",
+                    room: "কেমিস্ট্রি ল্যাব/ ২০৩",
+                    teacher: "কামরুল হাসান স্যার",
+                    phone: "01568041722"
+                },
+                "০৪:৩০ - ০৬:০০": {
+                    code: "২৫৯১১",
+                    subject: "ম্যাথম্যাটিকস-১",
+                    room: "৩২০",
+                    teacher: "মোছাঃ সুমাইয়া রিফাত মেডাম",
+                    phone: "01521487146"
+                }
+            },
+            "সোমবার": {
+                "০১:৩০ - ০২:১৫": {
+                    code: "২৫৮১১",
+                    subject: "সমাজ বিজ্ঞান",
+                    room: "৩২৩",
+                    teacher: "জিএম কামরুল হাসান স্যার",
+                    phone: "01823257704"
+                },
+                "০২:১৫ - ০৩:০০": {
+                    code: "২৬৭১১",
+                    subject: "বেসিক ইলেক্ট্রিসিটি",
+                    room: "৩২০",
+                    teacher: "ইটি-২",
+                    phone: "00"
+                },
+                "০৩:০০ - ০৩:৪৫": {
+                    code: "২৫৯১৩",
+                    subject: "কেমিস্ট্রি",
+                    room: "৩০৮",
+                    teacher: "কামরুল হাসান স্যার",
+                    phone: "01568041722"
+                },
+                "০৩:৪৫ - ০৪:৩০": {
+                    code: "২৯০১১",
+                    subject: "বেসিক এনভায়রনমেন্টাল ইঞ্জিঃ",
+                    room: "ইভিটি ল্যাব",
+                    teacher: "মো: ফয়সাল বারি স্যার",
+                    phone: "01673689385"
+                },
+                "০৪:৩০ - ০৬:০০": {
+                    code: "২৫৯১১",
+                    subject: "ম্যাথম্যাটিকস-১",
+                    room: "৩২১",
+                    teacher: "মোছাঃ সুমাইয়া রিফাত মেডাম",
+                    phone: "01917903102"
+                },
+                "০৬:০০ - ০৬:৪৫": {
+                    code: "২৫৭১২",
+                    subject: "ইংলিশ-১",
+                    room: "৩২১",
+                    teacher: "মাহমুদা সুলতানা মেডাম",
+                    phone: "01833088118"
+                }
+            },
+            "মঙ্গলবার": {
+                "০১:৩০ - ০২:১৫": {
+                    code: "২৫৭১১",
+                    subject: "বাংলা-১",
+                    room: "৩০৫",
+                    teacher: "সঞ্জীব ধর স্যার",
+                    phone: "01822241929"
+                },
+                "০২:১৫ - ০৩:৪৫": {
+                    code: "২৬৭১১",
+                    subject: "বেসিক ইলেক্ট্রিসিটি",
+                    room: "৩০৫",
+                    teacher: "ইটি-২",
+                    phone: "00"
+                },
+                "০৩:৪৫ - ০৫:১৫": {
+                    code: "২৫৯১৩",
+                    subject: "কেমিস্ট্রি",
+                    room: "কেমিস্ট্রি ল্যাব পি",
+                    teacher: "কামরুল হাসান স্যার",
+                    phone: "01568041722"
+                },
+                "০৫:১৫ - ০৬:৪৫": {
+                    code: "২৫৯১১",
+                    subject: "ম্যাথম্যাটিকস-১",
+                    room: "৩২১",
+                    teacher: "মোছাঃ সুমাইয়া রিফাত মেডাম",
+                    phone: "01917903102"
+                }
+            },
+            "বুধবার": {
+                "০১:৩০ - ০৩:৪৫": {
+                    code: "২১০১১",
+                    subject: "ইঞ্জিনিয়ারিং ড্রয়িং",
+                    room: "২১৬",
+                    teacher: "গৌতম পাল স্যার",
+                    phone: "01752597179"
+                },
+                "০৩:৪৫ - ০৫:১৫": {
+                    code: "২৬৭১১",
+                    subject: "বেসিক ইলেক্ট্রিসিটি",
+                    room: "বিডব্লিউএস-১",
+                    teacher: "ইটি-২",
+                    phone: "00"
+                },
+                "০৫:১৫ - ০৬:৪৫": {
+                    code: "২৫৯১৩",
+                    subject: "কেমিস্ট্রি",
+                    room: "৩০৬",
+                    teacher: "কামরুল হাসান স্যার",
+                    phone: "01568041722"
+                }
+            },
+            "বৃহস্পতিবার": {
+                "০১:৩০ - ০৩:৪৫": {
+                    code: "২১০১১",
+                    subject: "ইঞ্জিনিয়ারিং ড্রয়িং",
+                    room: "২১২",
+                    teacher: "গৌতম পাল স্যার",
+                    phone: "01752597179"
+                },
+                "০৩:৪৫ - ০৪:৩০": {
+                    code: "২৯০১১",
+                    subject: "বেসিক এনভায়রনমেন্টাল ইঞ্জিঃ",
+                    room: "ইভিটি ল্যাব",
+                    teacher: "মো: ফয়সাল বারি স্যার",
+                    phone: "01673689385"
+                },
+                "০৪:৩০ - ০৫:১৫": {
+                    code: "২৫৮১১",
+                    subject: "সমাজ বিজ্ঞান",
+                    room: "৩১১",
+                    teacher: "জিএম কামরুল হাসান স্যার",
+                    phone: "01823257704"
+                },
+                "০৫:১৫ - ০৬:০০": {
+                    code: "২৫৭১২",
+                    subject: "ইংলিশ-১",
+                    room: "৩০৮",
+                    teacher: "মাহমুদা সুলতানা মেডাম",
+                    phone: "01833088118"
+                }
+            }
+        };
+
+        // DOM এলিমেন্ট
+        const daySelect = document.getElementById('daySelect');
+        const timeSelect = document.getElementById('timeSelect');
+        const infoCard = document.getElementById('infoCard');
+
+        // ===== App Inventor-এর জন্য কল ফাংশন =====
+        function makeCall(phoneNumber) {
+            if (!phoneNumber || phoneNumber === "00") {
+                alert("এই শিক্ষকের ফোন নাম্বার এখনো যোগ করা হয়নি।");
+                return;
+            }
+
+            if (window.AppInventor) {
+                window.AppInventor.setWebViewString("CALL:" + phoneNumber);
+            }
+            else {
+                window.location.href = 'tel:' + phoneNumber;
+            }
+        }
+
+        // ===== ১ম ড্রপডাউন পরিবর্তন হলে =====
+        daySelect.addEventListener('change', function() {
+            const selectedDay = this.value;
+
+            timeSelect.innerHTML = '';
+
+            if (!selectedDay) {
+                timeSelect.disabled = true;
+                timeSelect.innerHTML = '<option value="">-- প্রথমে দিন নির্বাচন করুন --</option>';
+                showPlaceholder("উপরে দিন নির্বাচন করুন...");
+                return;
+            }
+
+            const dayData = routineData[selectedDay];
+
+            if (!dayData) {
+                timeSelect.disabled = true;
+                timeSelect.innerHTML = '<option value="">-- এই দিনের ডেটা নেই --</option>';
+                showPlaceholder("এই দিনের জন্য কোনো রুটিন যোগ করা হয়নি।");
+                return;
+            }
+
+            timeSelect.disabled = false;
+            timeSelect.innerHTML = '<option value="">-- সময় নির্বাচন করুন --</option>';
+
+            Object.keys(dayData).forEach(function(time) {
+                const option = document.createElement('option');
+                option.value = time;
+                option.textContent = time;
+                timeSelect.appendChild(option);
+            });
+
+            showAllClasses(dayData, selectedDay);
+        });
+
+        // ===== ২য় ড্রপডাউন পরিবর্তন হলে =====
+        timeSelect.addEventListener('change', function() {
+            const selectedDay = daySelect.value;
+            const selectedTime = this.value;
+
+            if (!selectedDay || !selectedTime) {
+                const dayData = routineData[selectedDay];
+                if (dayData) {
+                    showAllClasses(dayData, selectedDay);
+                }
+                return;
+            }
+
+            const data = routineData[selectedDay][selectedTime];
+
+            if (!data) {
+                showPlaceholder("এই সময়ে কোনো ক্লাস নেই।");
+                return;
+            }
+
+            showSingleClass(data, selectedTime);
+        });
+
+        // ===== সেই দিনের সব ক্লাস দেখানো =====
+        function showAllClasses(dayData, dayName) {
+            infoCard.classList.remove('hidden');
+
+            let html = `
+                <div style="text-align:center; margin-bottom:18px;">
+                    <span style="display:inline-block; background:linear-gradient(90deg,#00e5ff,#ffd700); color:#0f2027; font-weight:700; font-size:1.05rem; padding:8px 24px; border-radius:25px; box-shadow:0 4px 15px rgba(0,229,255,0.4);">
+                        ✪ ${dayName} এর ক্লাস রুটিন
+                    </span>
+                </div>
+            `;
+
+            Object.keys(dayData).forEach(function(time) {
+                const data = dayData[time];
+                html += `
+                    <div class="class-card">
+                        <div class="class-time">➤ সময়: ${time}</div>
+                        <div class="class-detail">
+                            <span class="icon">📚</span>
+                            <span class="label">বিষয় ও কোড:</span>
+                            <span class="value"><span class="subject-code">${data.code}</span>${data.subject}</span>
+                        </div>
+                        <div class="class-detail">
+                            <span class="icon">🚪</span>
+                            <span class="label">ক্লাসরুম:</span>
+                            <span class="value">${data.room}</span>
+                        </div>
+                        <div class="class-detail">
+                            <span class="icon">👨‍🏫</span>
+                            <span class="label">শিক্ষক:</span>
+                            <span class="value">${data.teacher}</span>
+                        </div>
+                        <div class="class-detail">
+                            <span class="icon">📞</span>
+                            <span class="label">ফোন:</span>
+                            <button type="button" class="phone-link" onclick="makeCall('${data.phone}')">
+                                <span>📱</span> ${data.phone}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            infoCard.innerHTML = html;
+        }
+
+        // ===== একটি নির্দিষ্ট ক্লাস দেখানো =====
+        function showSingleClass(data, time) {
+            infoCard.classList.remove('hidden');
+
+            infoCard.innerHTML = `
+                <div class="class-card" style="animation-delay: 0s;">
+                    <div class="class-time">➤ সময়: ${time}</div>
+                    <div class="class-detail">
+                        <span class="icon">📚</span>
+                        <span class="label">বিষয় ও কোড:</span>
+                        <span class="value"><span class="subject-code">${data.code}</span>${data.subject}</span>
+                    </div>
+                    <div class="class-detail">
+                        <span class="icon">🚪</span>
+                        <span class="label">ক্লাসরুম:</span>
+                        <span class="value">${data.room}</span>
+                    </div>
+                    <div class="class-detail">
+                        <span class="icon">👨‍🏫</span>
+                        <span class="label">শিক্ষক:</span>
+                        <span class="value">${data.teacher}</span>
+                    </div>
+                    <div class="class-detail">
+                        <span class="icon">📞</span>
+                        <span class="label">ফোন:</span>
+                        <button type="button" class="phone-link" onclick="makeCall('${data.phone}')">
+                            <span>📱</span> ${data.phone}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ===== প্লেসহোল্ডার দেখানো =====
+        function showPlaceholder(text) {
+            infoCard.classList.remove('hidden');
+            infoCard.innerHTML = `<div class="placeholder">${text}</div>`;
+        }
+    </script>
+
+</body>
+</html>
